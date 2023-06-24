@@ -20,4 +20,12 @@ app.get("/one", (req, res) => {
   res.status(200).json({ result });
 });
 
+app.get("/two", (req, res) => {
+    const deviceDetector = new Detector();
+    const userAgent = req.headers["user-agent"];
+    const device = deviceDetector.parse(userAgent);
+  
+    res.status(200).json({device});
+  });
+
 app.listen(8080);
