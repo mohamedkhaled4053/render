@@ -1,5 +1,6 @@
 let express = require("express");
 let app = express();
+const requestIp = require('request-ip');
 
 app.get("/one", (req, res) => {
   let address = req.socket.address();
@@ -17,6 +18,10 @@ app.get("/one", (req, res) => {
   let trueClient = req.headers["true-client-ip"];
   let real = req.headers["x-real-ip"];
   let cluster = req.headers["x-cluster-client-ip"];
+
+
+  let ip = requestIp.getClientIp(req)
+
   res.status(200).json({
     address,
     remoteAddress,
@@ -33,6 +38,7 @@ app.get("/one", (req, res) => {
     trueClient,
     real,
     cluster,
+    ip
   });
 });
 
