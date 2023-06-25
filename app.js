@@ -1,6 +1,8 @@
 let express = require("express");
 let app = express();
-const requestIp = require('request-ip');
+const requestIp = require("request-ip");
+const DeviceDetector = require("node-device-detector");
+const Detector = require("device-detector-js");
 
 app.get("/one", (req, res) => {
   let address = req.socket.address();
@@ -18,10 +20,19 @@ app.get("/one", (req, res) => {
   let trueClient = req.headers["true-client-ip"];
   let real = req.headers["x-real-ip"];
   let cluster = req.headers["x-cluster-client-ip"];
-  let userAgent = req.headers['user-agent']
+  let userAgent = req.headers["user-agent"];
 
+  const detector = new DeviceDetector({
+    clientIndexes: true,
+    deviceIndexes: true,
+    deviceAliasCode: false,
+  });
+  const result = detector.detect(userAgent);
 
-  let ip = requestIp.getClientIp(req)
+  const deviceDetector = new Detector();
+  const device = deviceDetector.parse(userAgent);
+
+  let ip = requestIp.getClientIp(req);
 
   res.status(200).json({
     address,
@@ -40,7 +51,9 @@ app.get("/one", (req, res) => {
     real,
     cluster,
     ip,
-    userAgent
+    userAgent,
+    nodeDeviceDetector: result,
+    DeviceDetector:device
   });
 });
 
