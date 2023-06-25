@@ -18,6 +18,7 @@ app.get("/one", (req, res) => {
   let trueClient = req.headers["true-client-ip"];
   let real = req.headers["x-real-ip"];
   let cluster = req.headers["x-cluster-client-ip"];
+  let userAgent = req.headers['user-agent']
 
 
   let ip = requestIp.getClientIp(req)
@@ -38,7 +39,8 @@ app.get("/one", (req, res) => {
     trueClient,
     real,
     cluster,
-    ip
+    ip,
+    userAgent
   });
 });
 
