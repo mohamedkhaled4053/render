@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "device": "^0.3.12",
     "express": "^4.18.2",
     "nodemon": "^2.0.22"
   }
